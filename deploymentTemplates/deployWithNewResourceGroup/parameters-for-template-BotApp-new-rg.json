@@ -3,19 +3,19 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "groupName": {
-            "value": ""
+            "value": "msa-p10-NewRG"
         },
         "groupLocation": {
-            "value": ""
+            "value": "france central"
         },
         "appServiceName": {
-            "value": ""
+            "value": "msa-p10-appServiceName-svc-name"
         },
         "appServicePlanName": {
-            "value": ""
+            "value": "msa-p10-appServiceName-svc-plan"
         },
         "appServicePlanLocation": {
-            "value": ""
+            "value": "France central"
         },
         "appServicePlanSku": {
             "value": {
@@ -30,7 +30,7 @@
             "value": ""
         },
         "appSecret": {
-            "value": ""
+            "value": "msaSecret1902"
         }
     }
 }
