@@ -104,26 +104,33 @@ async def fx_handle_new_connexion_tobot_api(req: Request) -> Response:
     print("App 3 --- END")
     return Response(status=HTTPStatus.OK)
 
-#
-# Declaration de l'application 
-#
-APP = aiohttp_web.Application(
-    middlewares = [
-        bot_telemetry_middleware, 
-        aiohttp_error_middleware
-    ]
-)
 
-#
-# Definition des EndPoints
-#
-APP.router.add_post("/p10/api/messages", fx_handle_new_connexion_tobot_api)
 
 #
 # Finally : 
 #
+
+def fx_init_app():
+    #
+    # Declaration de l'application 
+    #
+    APP = aiohttp_web.Application(
+        middlewares = [
+            bot_telemetry_middleware, 
+            aiohttp_error_middleware
+        ]
+    )
+
+    #
+    # Definition des EndPoints
+    #
+    APP.router.add_post("/p10/api/messages", fx_handle_new_connexion_tobot_api) 
+    return APP
+
 if __name__ == "__main__":
     print("INFO: [App - start running the bot APP]")
+    APP = fx_init_app()
+    
     try:
         aiohttp_web.run_app(APP, host="localhost", port=CONFIG.PORT)
     except Exception as error:
