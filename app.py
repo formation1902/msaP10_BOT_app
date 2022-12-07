@@ -110,7 +110,7 @@ async def fx_handle_new_connexion_tobot_api(req: Request) -> Response:
 # Finally : 
 #
 
-def fx_init_app():
+def fx_init_app(argv=None):
     #
     # Declaration de l'application 
     #
@@ -143,4 +143,4 @@ if __name__ == "__main__":
 #
 # gunicorn --bind 0.0.0.0 --worker-class aiohttp.worker.GunicornWebWorker --timeout 600 -P 3978 app:APP
 
-# python -m aiohttp -H 0.0.0.0 -P 8000 app:fx_init_app
+# python -m aiohttp.web -H 0.0.0.0 -P 8000 app:fx_init_app
