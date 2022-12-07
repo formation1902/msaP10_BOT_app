@@ -127,9 +127,12 @@ def fx_init_app():
     APP.router.add_post("/p10/api/messages", fx_handle_new_connexion_tobot_api) 
     return APP
 
+APP = fx_init_app()
+
+
 if __name__ == "__main__":
     print("INFO: [App - start running the bot APP]")
-    APP = fx_init_app()
+    
     
     try:
         aiohttp_web.run_app(APP, host="localhost", port=CONFIG.PORT)
