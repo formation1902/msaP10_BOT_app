@@ -132,9 +132,15 @@ APP = fx_init_app()
 
 if __name__ == "__main__":
     print("INFO: [App - start running the bot APP]")
-    
-    
     try:
         aiohttp_web.run_app(APP, host="localhost", port=CONFIG.PORT)
     except Exception as error:
         raise error
+
+
+#
+# Startup classique
+#
+# gunicorn --bind 0.0.0.0 --worker-class aiohttp.worker.GunicornWebWorker --timeout 600 -P 3978 app:APP
+
+# python -m aiohttp -H 0.0.0.0 -P 8000 app:fx_init_app
