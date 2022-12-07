@@ -28,7 +28,7 @@ class AdapterWithErrorHandler(BotFrameworkAdapter):
             #
             # Integrer ces erreurs dans l'application insights
             #
-            print(f"\n [on_turn_error] unhandled error: {error}", file=sys.stderr)
+            print(f"###\n### ----> ERROR : [AdapterWithErrorHandler : on_turn_error] unhandled error: {error} \n###\n", file=sys.stderr)
             traceback.print_exc()
 
             #

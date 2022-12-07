@@ -40,7 +40,11 @@ class Reserver_un_billet_d_avion_Recognizer(Recognizer):
             # Instantiation de l'application LUIS
             #
             print("\t ### ---> luis_is_configured == True  [Reserver_un_billet_d_avion_Recognizer ]\n\t - 2. creation de l'application luis = ",end ='')
-            luis_application = LuisApplication( configuration.LUIS_APP_ID, configuration.LUIS_API_KEY, "https://" + configuration.LUIS_API_HOST_NAME )
+            luis_application = LuisApplication(
+                configuration.LUIS_APP_ID, 
+                configuration.LUIS_API_KEY, 
+                "https://" + configuration.LUIS_API_HOST_NAME
+            )
             print(luis_application)
 
             options = LuisPredictionOptions()

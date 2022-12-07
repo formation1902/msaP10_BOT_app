@@ -26,7 +26,12 @@ from aiohttp.web    import Request, Response, json_response
 #   - configuration et activation de la telemetrie
 #######################################################
 CONFIG      = Bot_luis_app_and_insights_configuration()
+
+
 SETTINGS    = BotFrameworkAdapterSettings(CONFIG.APP_ID)#, CONFIG.APP_PASSWORD)
+
+
+
 MEMORY              = MemoryStorage()
 USER_STATE          = UserState(MEMORY)
 CONVERSATION_STATE  = ConversationState(MEMORY)

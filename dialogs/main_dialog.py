@@ -86,8 +86,9 @@ class MainDialog(ComponentDialog):
             empty_brand_new_reservation_details_object = ReservationDetails()            
             return await step_context.begin_dialog(self._reservation_dialog_id, empty_brand_new_reservation_details_object)
 
+        print("---------------> ABCDE 001")
         intent, luis_result = await LuisHelper.execute_luis_query(self._luis_recognizer, step_context.context)
-
+        print("---------------> ABCDE 002")
         if intent == Intent.BOOK_FLIGHT.value and luis_result:
             return await step_context.begin_dialog(self._reservation_dialog_id, luis_result)
         else:
