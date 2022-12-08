@@ -17,9 +17,9 @@ class Bot_luis_app_and_insights_configuration:
     
     PORT = 3978
     
-    APP_ID = os.environ.get("MicrosoftAppId", "")
+    APP_ID = os.environ.get("MicrosoftAppId", "msa-p10-manually-set-id")
     
-    APP_PASSWORD = os.environ.get("MicrosoftAppPassword", "")
+    APP_PASSWORD = os.environ.get("MicrosoftAppPassword", "msaSecret1902")
     
     LUIS_APP_ID = os.environ.get("LuisAppId","fa851bde-e539-4c83-b9ef-2f36ca8e1b44")
     

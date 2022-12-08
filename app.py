@@ -133,7 +133,7 @@ APP = fx_init_app()
 if __name__ == "__main__":
     print("INFO: [App - start running the bot APP]")
     try:
-        aiohttp_web.run_app(APP, host="localhost", port=CONFIG.PORT)
+        aiohttp_web.run_app(APP, host="0.0.0.0", port=CONFIG.PORT)
     except Exception as error:
         raise error
 
