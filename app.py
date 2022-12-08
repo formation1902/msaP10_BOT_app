@@ -114,6 +114,7 @@ def fx_init_app(argv=None):
     #
     # Declaration de l'application 
     #
+    print("\n----------> \n----------> msa fx_init_app called \n----------> \n")
     APP = aiohttp_web.Application(
         middlewares = [
             bot_telemetry_middleware, 
@@ -125,6 +126,7 @@ def fx_init_app(argv=None):
     # Definition des EndPoints
     #
     APP.router.add_post("/p10/api/messages", fx_handle_new_connexion_tobot_api) 
+    print("----------> msa fx_init_app : APP created\n\n")
     return APP
 
 APP = fx_init_app()
