@@ -14,12 +14,23 @@ from botbuilder.schema  import ActivityTypes, Activity
 class AdapterWithErrorHandler(BotFrameworkAdapter):
     nb=0
     def __init__(self,settings: BotFrameworkAdapterSettings,conversation_state: ConversationState):
+        #
         AdapterWithErrorHandler.nb+=1
         print("INFO: [AdapterWithErrorHandler : instatiated] nb = ",AdapterWithErrorHandler.nb)
+        #
+        # 
+        # 
         super().__init__(settings)
         self._conversation_state = conversation_state
 
-        # Catch-all for errors.
+        def process_activity(self,argv):
+            print("\n\n????????????????????????????[AdapterWithErrorHandler - process_activity ] : start ")
+            super(AdapterWithErrorHandler,self).process_activity(argv)
+            print("\n\n????????????????????????????[AdapterWithErrorHandler - process_activity ] : end ")
+
+        #
+        # Un seule methode adaptée : on_error
+        #
         async def on_error(context: TurnContext, error: Exception):
             # This check writes out errors to console log
             # NOTE: In production environment, you should consider logging this to Azure

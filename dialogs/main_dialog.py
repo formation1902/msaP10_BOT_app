@@ -11,7 +11,17 @@ from .reservation_dialog                    import ReservationDialog
 
 class MainDialog(ComponentDialog):
     nb = 0       
-    def __init__( self, luis_recognizer: Reserver_un_billet_d_avion_Recognizer, reservation_dialog: ReservationDialog, telemetry_client: BotTelemetryClient = None):
+    def __init__( 
+                 
+                    self, 
+                    
+                    luis_recognizer: Reserver_un_billet_d_avion_Recognizer, 
+                    
+                    reservation_dialog: ReservationDialog, 
+                    
+                    telemetry_client: BotTelemetryClient = None
+                    
+    ):
         MainDialog.nb+=1
         print("INFO :[ MainDialog : Instantiated ] nb = ",MainDialog.nb)
         #
@@ -24,7 +34,7 @@ class MainDialog(ComponentDialog):
         reservation_dialog.telemetry_client = self.telemetry_client
 
         wf_dialog = WaterfallDialog(
-            "WFDialog", 
+            "msa_Chellal_id", 
             [
                 self.fx_welcoming_step, 
                 self.fx_activation_step, 
@@ -40,7 +50,7 @@ class MainDialog(ComponentDialog):
         self.add_dialog(reservation_dialog)
         self.add_dialog(wf_dialog)
 
-        self.initial_dialog_id = "WFDialog"
+        self.initial_dialog_id = "msa_Chellal_id"
 
     async def fx_welcoming_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
         print("----> main-dialog fx_welcoming_step")
@@ -51,15 +61,13 @@ class MainDialog(ComponentDialog):
             await step_context.context.send_activity(
                 
                 MessageFactory.text(
-                    "NOTE: LUIS is not configured. To enable all capabilities, add 'LuisAppId', 'LuisAPIKey' and "
-                    "'LuisAPIHostName' to the appsettings.json file.",
+                    "NOTE: LUIS environment is down. COnfiguration file must be set with :'LuisAppId', 'LuisAPIKey'  et  'LuisAPIHostName'",
                     input_hint=InputHints.ignoring_input,
                 )
                 
             )
 
-            return await step_context.next(None)
-        
+            return await step_context.next(None)        
         #
         #
         #
@@ -83,12 +91,14 @@ class MainDialog(ComponentDialog):
             #
             #
             #
+            print("\nINFO : [MainDialog - fx_activation_step] no luis app.")
             empty_brand_new_reservation_details_object = ReservationDetails()            
             return await step_context.begin_dialog(self._reservation_dialog_id, empty_brand_new_reservation_details_object)
 
-        print("---------------> ABCDE 001")
+        print("\nINFO : [MainDialog - fx_activation_step] calling LuisHelper.execute_luis_query : ")
         intent, luis_result = await LuisHelper.execute_luis_query(self._luis_recognizer, step_context.context)
-        print("---------------> ABCDE 002")
+        print("\nINFO : [MainDialog - fx_activation_step] calling LuisHelper.execute_luis_query : done ")
+        
         if intent == Intent.BOOK_FLIGHT.value and luis_result:
             return await step_context.begin_dialog(self._reservation_dialog_id, luis_result)
         else:

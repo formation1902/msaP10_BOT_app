@@ -24,28 +24,36 @@ class DialogAndWelcomeBot(DialogBot):
     # Bot acceuil des utilisateurs 
     #
     nb=0
-    def __init__(self,conversation_state: ConversationState,user_state: UserState,dialog: Dialog,telemetry_client: BotTelemetryClient):
+    WELCOME_MESSAGE = "We are happy to assit you book your Flight !!!"
+    def __init__(self,conversation_state: ConversationState,user_state: UserState,dialog: Dialog,telemetry_client: BotTelemetryClient,msaName='msaName-DialogAndWelcomeBot'):
         DialogAndWelcomeBot.nb+=1
-        print("INFO: [DialogAndWelcomeBot : instatiated] nb = ",DialogAndWelcomeBot.nb)
+        self.msaName = msaName + "_" + str(DialogAndWelcomeBot.nb)
         super(DialogAndWelcomeBot, self).__init__(conversation_state, user_state, dialog, telemetry_client)
         self.telemetry_client = telemetry_client
         self.already_sent = False
-    
+        print("INFO: [DialogAndWelcomeBot : instatiated] nb = ",DialogAndWelcomeBot.nb," name == ",self.msaName)
+        print("INFO: [DialogAndWelcomeBot : DialogAndWelcomeBot.nb ] --> ",DialogAndWelcomeBot.nb)
+        print("INFO: [DialogAndWelcomeBot : DialogBot.nb ] --> ",DialogBot.nb)
+        
+        
     async def on_members_added_activity(self, members_added: List[ChannelAccount], turn_context: TurnContext):
         print(" --> [ DialogAndWelcomeBot: call to  on_members_added_activity ]")
         for member in members_added:
-            # Greet anyone that was not the target (recipient) of this message.
+            # Greet when users are added to the conversation.
             # To learn more about Adaptive Cards, see https://aka.ms/msbot-adaptivecards
-            #
-            # C'est la qu'il faut greeter any new connected user
-            #
-            if member.id != turn_context.activity.recipient.id and not self.already_sent:
+            if member.id != turn_context.activity.recipient.id :
                 welcome_card = self.create_adaptive_card_attachment()
                 response = self.create_response(turn_context.activity, welcome_card)
                 print("\nINFO: [on_members_added_activity - on_members_added_activity ] 2_1............... new member.id : ",member.id)
                 await turn_context.send_activity(response)
                 print("\nINFO: [on_members_added_activity - on_members_added_activity ] 2_2............... new member.id : ",member.id)
-                self.already_sent = True
+                
+                await turn_context.send_activity(
+                    f"Hi there { member.name }. " + DialogAndWelcomeBot.WELCOME_MESSAGE
+                )
+                print("\nINFO: [on_members_added_activity - on_members_added_activity ] 2_3............... new member.id : ",member.id)
+                
+                
                 
     def create_response(self, activity: Activity, attachment: Attachment):
         print(" --> [ DialogAndWelcomeBot: call to  create_response ]")

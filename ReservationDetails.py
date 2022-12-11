@@ -8,8 +8,9 @@ class ReservationDetails:
         #
         #
         #
-        self.ville_depart = ville_depart
-        self.ville_destination = ville_destination
-        self.date_depart = date_depart
-        self.date_retour = date_retour
-        self.budget = budget
+        self.ville_depart       = ville_depart
+        self.ville_destination  = ville_destination
+        self.date_depart        = date_depart
+        self.date_retour        = date_retour
+        self.budget             = budget
+        

@@ -2,6 +2,7 @@
 #
 #
 from datatypes_date_time.timex import Timex
+import json
 
 from botbuilder.dialogs         import WaterfallDialog, WaterfallStepContext, DialogTurnResult
 from botbuilder.dialogs.prompts import ConfirmPrompt, TextPrompt, PromptOptions
@@ -22,7 +23,8 @@ class ReservationDialog(CancelAndHelpDialog):
         super(ReservationDialog, self).__init__( dialog_id or ReservationDialog.__name__, telemetry_client )
         self.telemetry_client        = telemetry_client
         text_prompt                  = TextPrompt(TextPrompt.__name__)
-        confirm_prompt                  = ConfirmPrompt(ConfirmPrompt.__name__)
+        confirm_prompt               = ConfirmPrompt(ConfirmPrompt.__name__)
+        
         text_prompt.telemetry_client = telemetry_client
         confirm_prompt.telemetry_client = telemetry_client
 
@@ -41,18 +43,11 @@ class ReservationDialog(CancelAndHelpDialog):
         waterfall_dialog.telemetry_client = telemetry_client
 
         self.add_dialog(text_prompt)
-        
-        print("##############\n\n toto = ",DateResolverDialogRetour.__name__,"\n\n")
-        self.add_dialog(
-            DateResolverDialog(DateResolverDialog.__name__, self.telemetry_client)
-        )
-        self.add_dialog(
-            DateResolverDialogRetour(DateResolverDialogRetour.__name__, self.telemetry_client)
-        )
+        self.add_dialog(DateResolverDialog(DateResolverDialog.__name__, self.telemetry_client))
+        self.add_dialog(DateResolverDialogRetour(DateResolverDialogRetour.__name__, self.telemetry_client))
         self.add_dialog(waterfall_dialog)
         self.add_dialog(confirm_prompt)
-        
-        
+
         self.initial_dialog_id = WaterfallDialog.__name__
 
     async def fx_ville_depart_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -115,11 +110,13 @@ class ReservationDialog(CancelAndHelpDialog):
         # - prompt pour la date depart si absente
         #
         if not x.date_depart or self.is_ambiguous( x.date_depart):
+            print("INFO [RSERVATION_DIALOG - fx_date_depart_step ] 1..... date_depart exists : ", x.date_depart)
             return await step_context.begin_dialog(
                 DateResolverDialog.__name__, 
                 x.date_depart
             )
 
+        print("INFO [RSERVATION_DIALOG - fx_date_depart_step ] 2..... date_departdoes not exists : ", x.date_depart)
         return await step_context.next(x.date_depart)
     
     async def fx_date_retour_step( self, step_context: WaterfallStepContext ) -> DialogTurnResult:
@@ -185,6 +182,8 @@ class ReservationDialog(CancelAndHelpDialog):
         #
         #
         user_gathered_resevation_details = x
+        
+        print("\n\n\n---------------------------------------\nINFO : [ReservationDialog - fx_confirm_step ] Demande confirmation a l'utilisateur : \n",json.dumps(x.__dict__,indent=4),"\n---------------------------------------\n\n\n")
         
         msg = (
             f"Please confirm, I have you traveling"

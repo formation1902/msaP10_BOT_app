@@ -21,11 +21,10 @@ class DateResolverDialog(CancelAndHelpDialog):
 
         date_time_prompt = DateTimePrompt( DateTimePrompt.__name__, DateResolverDialog.datetime_prompt_validator )
         date_time_prompt.telemetry_client = telemetry_client
-
+        self.add_dialog(date_time_prompt)
+        
         waterfall_dialog = WaterfallDialog( WaterfallDialog.__name__ + "2", [self.initial_step, self.final_step] )
         waterfall_dialog.telemetry_client = telemetry_client
-
-        self.add_dialog(date_time_prompt)
         self.add_dialog(waterfall_dialog)
 
         self.initial_dialog_id = WaterfallDialog.__name__ + "2"
@@ -35,10 +34,11 @@ class DateResolverDialog(CancelAndHelpDialog):
         #
         # 
         #
-        timex = step_context.options
-        prompt_msg   = "Please, can you specify the " + self.msaType + " date?"
-        reprompt_msg = "Pour une meilleur lisibilité : dd/mm/yyy"
+        timex        = step_context.options
+        prompt_msg   = "Please, can you specify the " + self.msaType + " date dd/mm/yyyy ?"
+        reprompt_msg = "Pour une meilleur comprehension : dd/mm/yyy"
 
+        print("\n\n\n timex == ",timex,"\n\n\n")
         if timex is None:
             #
             # Absence de l'information date 
@@ -96,5 +96,5 @@ class DateResolverDialogRetour(DateResolverDialog):
     def __init__( self, dialog_id: str = None, telemetry_client: BotTelemetryClient = NullTelemetryClient()):
         super(DateResolverDialogRetour, self).__init__( dialog_id or DateResolverDialogRetour.__name__, telemetry_client,msaType="retour" )
         print("---------> ",DateResolverDialogRetour.__name__)
-        print("---------> ",dialog_id)
+        print("---------> dialog_id == ",dialog_id)
         self.msaType = "retour"
